@@ -24,12 +24,16 @@ export const Home = () => {
     ]);
   }, []);
 
+  const downloadVideoByUrl = (status) => {
+    console.log(status);
+  };
+
   return (
     <Page>
       <Text style={{ textAlign: "center" }} h1>
         YoutubeDown
       </Text>
-      <Tab>
+      <Tab initialOpenTab={1}>
         {menuItems.map((menuItem) => (
           <Tabs.Item
             key={Math.random()}
@@ -40,7 +44,7 @@ export const Home = () => {
               <Section>
                 <h2>{menuItem.title}</h2>
                 <p>{menuItem.description}</p>
-                <InputVideoUrl />
+                <InputVideoUrl downloadVideo={downloadVideoByUrl} />
               </Section>
             </DownloadSection>
           </Tabs.Item>

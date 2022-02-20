@@ -1,8 +1,8 @@
 import { Tabs } from "@geist-ui/core";
-export const Tab = (props) => {
+export const Tab = ({ children, initialOpenTab }) => {
   return (
-    <Tabs initialValue="1" align="center" leftSpace={0}>
-      {props.children}
+    <Tabs initialValue={initialOpenTab} align="center" leftSpace={0}>
+      {children}
     </Tabs>
   );
 };
