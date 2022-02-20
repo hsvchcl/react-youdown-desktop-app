@@ -5,6 +5,7 @@ import { Section } from "../components/section";
 import { InputVideoUrl } from "../components/inputVideoUrl";
 import { Twitch, Twitter } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
+import { validateUrl } from "../controllers/utils";
 export const Home = () => {
   const [menuItems, setMenuItems] = useState([]);
   useEffect(() => {
@@ -24,14 +25,18 @@ export const Home = () => {
     ]);
   }, []);
 
-  const downloadVideoByUrl = (status) => {
-    console.log(status);
+  const downloadVideoByUrl = async (status) => {
+    const isValidUrl = validateUrl(status);
+    if (isValidUrl) {
+      // const downloadProccess = await downloadVideos(status, "audioonly");
+      // console.log(downloadProccess);
+    }
   };
 
   return (
     <Page>
       <Text style={{ textAlign: "center" }} h1>
-        YoutubeDown
+        YoutubeDownde
       </Text>
       <Tab initialOpenTab={1}>
         {menuItems.map((menuItem) => (
