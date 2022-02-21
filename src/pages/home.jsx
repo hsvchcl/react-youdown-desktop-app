@@ -5,7 +5,7 @@ import { Section } from "../components/section";
 import { InputVideoUrl } from "../components/inputVideoUrl";
 import { Twitch, Twitter } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
-import { validateUrl } from "../controllers/utils";
+import { validateUrl } from "../utils/index";
 export const Home = () => {
   const [menuItems, setMenuItems] = useState([]);
   const { setToast } = useToasts();
@@ -33,7 +33,11 @@ export const Home = () => {
       // console.log(downloadProccess);
       console.log(status);
     } else {
-      setToast({ text: "Debe ingresar una URL válida", delay: 2000, type: "error" });
+      setToast({
+        text: "Debe ingresar una URL válida",
+        delay: 2000,
+        type: "error",
+      });
     }
   };
 
