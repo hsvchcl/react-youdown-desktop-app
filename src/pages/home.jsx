@@ -12,7 +12,7 @@ export const Home = () => {
   useEffect(() => {
     setMenuItems([
       {
-        title: "Audio",
+        title: "Solo Audio",
         icon: Twitch,
         value: 1,
         description: "Descarga solo el audio de un video en formato mp3.",
@@ -40,7 +40,7 @@ export const Home = () => {
   return (
     <Page>
       <Text style={{ textAlign: "center" }} h1>
-        YoutubeDownde
+        YouDown
       </Text>
       <Tab initialOpenTab={1}>
         {menuItems.map((menuItem) => (
