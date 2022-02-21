@@ -1,4 +1,4 @@
-import { Page, Text, Tabs } from "@geist-ui/core";
+import { Page, Text, Tabs, useToasts } from "@geist-ui/core";
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { validateUrl } from "../controllers/utils";
 export const Home = () => {
   const [menuItems, setMenuItems] = useState([]);
+  const { setToast } = useToasts();
   useEffect(() => {
     setMenuItems([
       {
@@ -30,6 +31,9 @@ export const Home = () => {
     if (isValidUrl) {
       // const downloadProccess = await downloadVideos(status, "audioonly");
       // console.log(downloadProccess);
+      console.log(status);
+    } else {
+      setToast({ text: "Debe ingresar una URL válida", delay: 2000, type: "error" });
     }
   };
 
