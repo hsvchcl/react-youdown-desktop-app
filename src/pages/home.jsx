@@ -1,4 +1,4 @@
-import { Page, Text, Tabs, useToasts } from "@geist-ui/core";
+import { Page, Text, Tabs, useToasts, Grid } from "@geist-ui/core";
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
@@ -6,6 +6,7 @@ import { InputVideoUrl } from "../components/inputVideoUrl";
 import { Twitch, Twitter } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import { validateUrl } from "../utils/index";
+import { FileTree } from "../components/FileTree/FileTree";
 export const Home = () => {
   const [menuItems, setMenuItems] = useState([]);
   const { setToast } = useToasts();
@@ -46,23 +47,30 @@ export const Home = () => {
       <Text style={{ textAlign: "center" }} h1>
         YouDown
       </Text>
-      <Tab initialOpenTab={1}>
-        {menuItems.map((menuItem) => (
-          <Tabs.Item
-            key={Math.random()}
-            label={menuItem.title}
-            value={menuItem.value}
-          >
-            <DownloadSection>
-              <Section>
-                <h2>{menuItem.title}</h2>
-                <p>{menuItem.description}</p>
-                <InputVideoUrl downloadVideo={downloadVideoByUrl} />
-              </Section>
-            </DownloadSection>
-          </Tabs.Item>
-        ))}
-      </Tab>
+      <Grid.Container gap={2} justify="center">
+        <Grid xs={6}>
+          <FileTree />
+        </Grid>
+        <Grid xs={18}>
+          <Tab initialOpenTab={1}>
+            {menuItems.map((menuItem) => (
+              <Tabs.Item
+                key={Math.random()}
+                label={menuItem.title}
+                value={menuItem.value}
+              >
+                <DownloadSection>
+                  <Section>
+                    <h2>{menuItem.title}</h2>
+                    <p>{menuItem.description}</p>
+                    <InputVideoUrl downloadVideo={downloadVideoByUrl} />
+                  </Section>
+                </DownloadSection>
+              </Tabs.Item>
+            ))}
+          </Tab>
+        </Grid>
+      </Grid.Container>
     </Page>
   );
 };
