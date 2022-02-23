@@ -10,3 +10,11 @@ export const validateUrl = (urlToValidate) => {
   ); // fragment locator
   return !!pattern.test(urlToValidate);
 };
+
+export const clearURL = (urlToValidate) => {
+  if (urlToValidate.includes(["&"])) {
+    return urlToValidate.split("&")[0];
+  }
+  return urlToValidate;
+};
+

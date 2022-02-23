@@ -5,10 +5,12 @@ import { Section } from "../components/section";
 import { InputVideoUrl } from "../components/inputVideoUrl";
 import { Twitch, Twitter } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
-import { validateUrl } from "../utils/index";
-import { FileTree } from "../components/FileTree/FileTree";
+import { validateUrl, clearURL } from "../utils/index";
+import { downloadVideo } from "../api/api";
 export const Home = () => {
   const [menuItems, setMenuItems] = useState([]);
+  const [tabSel, setTabSel] = useState("audioonly");
+  const [btnLoading, setBtnLoading] = useState(false);
   const { setToast } = useToasts();
   useEffect(() => {
     setMenuItems([
@@ -17,22 +19,45 @@ export const Home = () => {
         icon: Twitch,
         value: 1,
         description: "Descarga solo el audio de un video en formato mp3.",
+        type: "audioonly",
       },
       {
         title: "Video",
         icon: Twitter,
         value: 2,
         description: "Descarga el video completo.",
+        type: "audioandvideo",
       },
     ]);
   }, []);
 
-  const downloadVideoByUrl = async (status) => {
-    const isValidUrl = validateUrl(status);
+  useEffect(() => {
+    if (btnLoading) {
+      setToast({
+        text: '👻 Estamos descargando su archivo',
+        delay: 5000,
+        type: "warning",
+      });
+    }
+  }, [btnLoading]);
+
+  const downloadVideoByUrl = async (urlVideo) => {
+    const isValidUrl = validateUrl(urlVideo);
     if (isValidUrl) {
-      // const downloadProccess = await downloadVideos(status, "audioonly");
-      // console.log(downloadProccess);
-      console.log(status);
+      const urlClean = clearURL(urlVideo);
+      const queryObject = {
+        videoList: [urlClean],
+        type: tabSel,
+        path: "Downloads",
+      };
+      setBtnLoading(true);
+      const downloadProccess = await downloadVideo(JSON.stringify(queryObject));
+      setBtnLoading(false);
+      setToast({
+        text: downloadProccess.message,
+        delay: 5000,
+        type: downloadProccess.status ? "success" : "error",
+      });
     } else {
       setToast({
         text: "Debe ingresar una URL válida",
@@ -48,22 +73,22 @@ export const Home = () => {
         YouDown
       </Text>
       <Grid.Container gap={2} justify="center">
-        <Grid xs={6}>
-          <FileTree />
-        </Grid>
-        <Grid xs={18}>
-          <Tab initialOpenTab={1}>
+        <Grid xs={24}>
+          <Tab initialOpenTab={"audioonly"} setTabSel={setTabSel}>
             {menuItems.map((menuItem) => (
               <Tabs.Item
                 key={Math.random()}
                 label={menuItem.title}
-                value={menuItem.value}
+                value={menuItem.type}
               >
                 <DownloadSection>
                   <Section>
                     <h2>{menuItem.title}</h2>
                     <p>{menuItem.description}</p>
-                    <InputVideoUrl downloadVideo={downloadVideoByUrl} />
+                    <InputVideoUrl
+                      downloadVideo={downloadVideoByUrl}
+                      btnLoading={btnLoading}
+                    />
                   </Section>
                 </DownloadSection>
               </Tabs.Item>

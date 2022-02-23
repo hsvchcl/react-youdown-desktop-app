@@ -1,7 +1,7 @@
 import { Youtube } from "@geist-ui/icons";
 import { Input, Button, Spacer } from "@geist-ui/core";
 import { useState } from "react";
-export const InputVideoUrl = ({ downloadVideo }) => {
+export const InputVideoUrl = ({ downloadVideo, btnLoading }) => {
   const [url, setUrl] = useState("");
   const urlValue = (value) => {
     setUrl(value.target.value);
@@ -14,9 +14,16 @@ export const InputVideoUrl = ({ downloadVideo }) => {
         placeholder="Youtube video URL"
         width="100%"
         onChange={urlValue}
+        disabled={btnLoading}
+        clearable
       />
       <Spacer h={2} />
-      <Button auto type="secondary" onClick={() => downloadVideo(url)}>
+      <Button
+        loading={btnLoading}
+        auto
+        type="secondary"
+        onClick={() => downloadVideo(url)}
+      >
         Descargar
       </Button>
     </>
