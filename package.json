@@ -42,7 +42,7 @@
       "buildResources": "assets"
     },
     "mac": {
-      "icon": "/Users/hns/Desktop/youDownIcon.png"
+      "icon": "/Users/hans/Desktop/youDownLogo.png"
     }
   },
   "eslintConfig": {

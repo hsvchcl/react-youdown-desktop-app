@@ -1,13 +1,5 @@
-import {
-  Page,
-  Text,
-  Tabs,
-  useToasts,
-  Toggle,
-  Dot,
-  Badge,
-} from "@geist-ui/core";
-import './style.css'
+import { Page, Text, Tabs, useToasts, Toggle, Dot } from "@geist-ui/core";
+import "./style.css";
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
@@ -15,13 +7,16 @@ import { InputVideoUrl } from "../components/inputVideoUrl";
 import { Twitch, Twitter } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import { validateUrl, clearURL } from "../utils/index";
-import { downloadVideo } from "../api/api";
+import { ModalMessage } from "../components/ModalMessage/ModalMessage";
+import { downloadVideo, checkAPIStatus } from "../api/api";
 export const Home = ({ switchThemes }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [tabSel, setTabSel] = useState("audioonly");
   const [btnLoading, setBtnLoading] = useState(false);
-  const { setToast } = useToasts({placement:'bottomLeft'});
+  const [openCloseModal, setOpenCloseModal] = useState(false);
+  const { setToast } = useToasts({ placement: "bottomLeft" });
   useEffect(() => {
+    let executed = false;
     setMenuItems([
       {
         title: "Solo Audio",
@@ -38,6 +33,29 @@ export const Home = ({ switchThemes }) => {
         type: "audioandvideo",
       },
     ]);
+    //CheckAPIStatus
+    async function checkStatus() {
+      checkAPIStatus().then((response) => {
+        const { status } = response;
+        if (!status) {
+          setOpenCloseModal(true);
+        } else {
+          setOpenCloseModal(false);
+          if (!executed) {
+            setToast({
+              text: `Todo conectado.`,
+              delay: 2000,
+              type: "default",
+            });
+          }
+          executed = true;
+        }
+      });
+    }
+    checkStatus();
+    setInterval(function () {
+      checkStatus();
+    }, 30000);
   }, []);
 
   useEffect(() => {
@@ -78,7 +96,13 @@ export const Home = ({ switchThemes }) => {
 
   return (
     <Page height="100vh">
-      <Toggle type="secondary" initialChecked={false} onChange={switchThemes} className="claseCheck" />
+      <ModalMessage open={openCloseModal} />
+      <Toggle
+        type="secondary"
+        initialChecked={false}
+        onChange={switchThemes}
+        className="claseCheck"
+      />
       <Text style={{ textAlign: "center" }} h1>
         YouDown
       </Text>
