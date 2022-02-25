@@ -10,11 +10,13 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    frame: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
+      disableHtmlFullscreenWindowResize: true,
     },
-    icon:  "/Users/hans/Desktop/iconDown.png",
+    icon: "/Users/hans/Desktop/iconDown.png",
   });
 
   win.loadURL(
@@ -22,6 +24,7 @@ function createWindow() {
       ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
+  win.setResizable(false);
 }
 
 app.on("ready", createWindow);

@@ -1,4 +1,13 @@
-import { Page, Text, Tabs, useToasts, Grid } from "@geist-ui/core";
+import {
+  Page,
+  Text,
+  Tabs,
+  useToasts,
+  Toggle,
+  Dot,
+  Badge,
+} from "@geist-ui/core";
+import './style.css'
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
@@ -7,11 +16,11 @@ import { Twitch, Twitter } from "@geist-ui/icons";
 import { useEffect, useState } from "react";
 import { validateUrl, clearURL } from "../utils/index";
 import { downloadVideo } from "../api/api";
-export const Home = () => {
+export const Home = ({ switchThemes }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [tabSel, setTabSel] = useState("audioonly");
   const [btnLoading, setBtnLoading] = useState(false);
-  const { setToast } = useToasts();
+  const { setToast } = useToasts({placement:'bottomLeft'});
   useEffect(() => {
     setMenuItems([
       {
@@ -34,7 +43,7 @@ export const Home = () => {
   useEffect(() => {
     if (btnLoading) {
       setToast({
-        text: '👻 Estamos descargando su archivo',
+        text: "Descargando Archivo",
         delay: 5000,
         type: "warning",
       });
@@ -68,34 +77,36 @@ export const Home = () => {
   };
 
   return (
-    <Page>
+    <Page height="100vh">
+      <Toggle type="secondary" initialChecked={false} onChange={switchThemes} className="claseCheck" />
       <Text style={{ textAlign: "center" }} h1>
         YouDown
       </Text>
-      <Grid.Container gap={2} justify="center">
-        <Grid xs={24}>
-          <Tab initialOpenTab={"audioonly"} setTabSel={setTabSel}>
-            {menuItems.map((menuItem) => (
-              <Tabs.Item
-                key={Math.random()}
-                label={menuItem.title}
-                value={menuItem.type}
-              >
-                <DownloadSection>
-                  <Section>
-                    <h2>{menuItem.title}</h2>
-                    <p>{menuItem.description}</p>
-                    <InputVideoUrl
-                      downloadVideo={downloadVideoByUrl}
-                      btnLoading={btnLoading}
-                    />
-                  </Section>
-                </DownloadSection>
-              </Tabs.Item>
-            ))}
-          </Tab>
-        </Grid>
-      </Grid.Container>
+      <Tab initialOpenTab={"audioonly"} setTabSel={setTabSel}>
+        {menuItems.map((menuItem) => (
+          <Tabs.Item
+            key={Math.random()}
+            label={menuItem.title}
+            value={menuItem.type}
+          >
+            <DownloadSection>
+              <Section>
+                <h2>{menuItem.title}</h2>
+                <p>{menuItem.description}</p>
+                <InputVideoUrl
+                  downloadVideo={downloadVideoByUrl}
+                  btnLoading={btnLoading}
+                />
+              </Section>
+            </DownloadSection>
+          </Tabs.Item>
+        ))}
+      </Tab>
+      <Page.Footer style={{ textAlign: "right", marginBottom: "20px" }}>
+        <Dot type="error" style={{ fontWeight: "bold" }}>
+          ByHans
+        </Dot>
+      </Page.Footer>
     </Page>
   );
 };
