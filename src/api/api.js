@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL_DEV;
 export const downloadVideo = (listUrlsBody) => {
   return fetch(`${API_URL}/download-video-list`, {
     method: "post",

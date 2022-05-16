@@ -8,15 +8,14 @@ require("@electron/remote/main").initialize();
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
+    width: 900,
     height: 600,
     frame: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
       disableHtmlFullscreenWindowResize: true,
-    },
-    icon: "/Users/hans/Desktop/iconDown.png",
+    }
   });
 
   win.loadURL(

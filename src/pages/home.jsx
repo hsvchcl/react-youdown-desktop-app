@@ -1,5 +1,5 @@
-import { Page, Text, Tabs, useToasts, Toggle, Dot } from "@geist-ui/core";
 import "./style.css";
+import { Page, Text, Tabs, useToasts, Toggle, Dot } from "@geist-ui/core";
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
@@ -15,21 +15,22 @@ export const Home = ({ switchThemes }) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [openCloseModal, setOpenCloseModal] = useState(false);
   const { setToast } = useToasts({ placement: "bottomLeft" });
+  
   useEffect(() => {
     let executed = false;
     setMenuItems([
       {
-        title: "Solo Audio",
+        title: "Audio",
         icon: Twitch,
         value: 1,
-        description: "Descarga solo el audio de un video en formato mp3.",
+        description: "Descarga solo el audio de un video en formato mp3",
         type: "audioonly",
       },
       {
         title: "Video",
         icon: Twitter,
         value: 2,
-        description: "Descarga el video completo.",
+        description: "Descarga video y audio",
         type: "audioandvideo",
       },
     ]);
@@ -43,9 +44,9 @@ export const Home = ({ switchThemes }) => {
           setOpenCloseModal(false);
           if (!executed) {
             setToast({
-              text: `Todo conectado.`,
+              text: `👍🏻  En línea`,
               delay: 2000,
-              type: "default",
+              type: "success"
             });
           }
           executed = true;
@@ -95,7 +96,13 @@ export const Home = ({ switchThemes }) => {
   };
 
   return (
-    <Page height="100vh">
+    <Page
+      height="100vh"
+      dotBackdrop={true}
+      dotSize="1px"
+      dotSpace={0.6}
+      width={50}
+    >
       <ModalMessage open={openCloseModal} />
       <Toggle
         type="secondary"
@@ -128,7 +135,7 @@ export const Home = ({ switchThemes }) => {
       </Tab>
       <Page.Footer style={{ textAlign: "right", marginBottom: "20px" }}>
         <Dot type="error" style={{ fontWeight: "bold" }}>
-          ByHans
+          hsvchcl Github
         </Dot>
       </Page.Footer>
     </Page>
