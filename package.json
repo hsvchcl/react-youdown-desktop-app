@@ -42,7 +42,7 @@
       "buildResources": "assets"
     },
     "mac": {
-      "icon": "./public/LogoApp.png"
+      "icon": "./public/logo512.png"
     }
   },
   "eslintConfig": {
