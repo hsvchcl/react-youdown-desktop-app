@@ -1,6 +1,9 @@
-<img src="https://firebasestorage.googleapis.com/v0/b/hsvchcl-you-down.appspot.com/o/favicon.png?alt=media&token=723df218-eb6b-4502-9701-782854178870" alt="drawing" width="100"/>
+<div>
+<img src="https://firebasestorage.googleapis.com/v0/b/hsvchcl-you-down.appspot.com/o/favicon.png?alt=media&token=723df218-eb6b-4502-9701-782854178870" alt="drawing" width="100" style="display:block; margin:auto;"/>
+</div>
 
-# YouDown!
+
+<h1 style="text-align:center">YouDown!</h1> 
 Ya no pierdas mas tiempo buscando sitios para descargar videos o musica de Youtube 😎
 
 YouDown! es una aplicación de escritorio (por el momento solo para MAC) que permite la descarga de audio y/o videos desde youtube al instante.
