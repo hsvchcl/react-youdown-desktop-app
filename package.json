@@ -42,7 +42,14 @@
       "buildResources": "assets"
     },
     "mac": {
-      "icon": "./public/logo512.png"
+      "icon": "./public/logo512.png",
+      "target": {
+        "target": "default",
+        "arch": [
+          "x64",
+          "arm64"
+        ]
+      }
     }
   },
   "eslintConfig": {
