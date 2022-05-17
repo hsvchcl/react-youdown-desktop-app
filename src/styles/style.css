@@ -1,0 +1,11 @@
+.claseCheck:checked {
+    color: blue !important;
+}
+
+.input-video-url__button {
+    -webkit-app-region: no-drag;
+}
+
+.home__dot_capitalize{
+    text-transform: lowercase !important;
+}

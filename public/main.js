@@ -9,7 +9,8 @@ function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     width: 900,
-    height: 600,
+    height: 700,
+    titleBarStyle: 'hiddenInset',
     frame: true,
     webPreferences: {
       nodeIntegration: true,
@@ -24,6 +25,7 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
   win.setResizable(false);
+  // win.setWindowButtonVisibility(false);
 }
 
 app.on("ready", createWindow);

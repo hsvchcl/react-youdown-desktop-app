@@ -1,5 +1,13 @@
-import "./style.css";
-import { Page, Text, Tabs, useToasts, Toggle, Dot } from "@geist-ui/core";
+import "../styles/style.css";
+import {
+  Page,
+  Text,
+  Tabs,
+  useToasts,
+  Toggle,
+  Dot,
+  Image,
+} from "@geist-ui/core";
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
@@ -9,13 +17,15 @@ import { useEffect, useState } from "react";
 import { validateUrl, clearURL } from "../utils/index";
 import { ModalMessage } from "../components/ModalMessage/ModalMessage";
 import { downloadVideo, checkAPIStatus } from "../api/api";
+import Logo from "../assets/logo_svg.svg";
+
 export const Home = ({ switchThemes }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [tabSel, setTabSel] = useState("audioonly");
   const [btnLoading, setBtnLoading] = useState(false);
   const [openCloseModal, setOpenCloseModal] = useState(false);
   const { setToast } = useToasts({ placement: "bottomLeft" });
-  
+
   useEffect(() => {
     let executed = false;
     setMenuItems([
@@ -46,7 +56,7 @@ export const Home = ({ switchThemes }) => {
             setToast({
               text: `👍🏻  En línea`,
               delay: 2000,
-              type: "success"
+              type: "success",
             });
           }
           executed = true;
@@ -70,6 +80,7 @@ export const Home = ({ switchThemes }) => {
   }, [btnLoading]);
 
   const downloadVideoByUrl = async (urlVideo) => {
+    setBtnLoading(true);
     const isValidUrl = validateUrl(urlVideo);
     if (isValidUrl) {
       const urlClean = clearURL(urlVideo);
@@ -78,7 +89,7 @@ export const Home = ({ switchThemes }) => {
         type: tabSel,
         path: "Downloads",
       };
-      setBtnLoading(true);
+      
       const downloadProccess = await downloadVideo(JSON.stringify(queryObject));
       setBtnLoading(false);
       setToast({
@@ -99,7 +110,7 @@ export const Home = ({ switchThemes }) => {
     <Page
       height="100vh"
       dotBackdrop={true}
-      dotSize="1px"
+      dotSize="0.8px"
       dotSpace={0.6}
       width={50}
     >
@@ -111,7 +122,7 @@ export const Home = ({ switchThemes }) => {
         className="claseCheck"
       />
       <Text style={{ textAlign: "center" }} h1>
-        YouDown
+        <Image width="128px" height="128px" src={Logo} /> YouDown!
       </Text>
       <Tab initialOpenTab={"audioonly"} setTabSel={setTabSel}>
         {menuItems.map((menuItem) => (
@@ -134,8 +145,8 @@ export const Home = ({ switchThemes }) => {
         ))}
       </Tab>
       <Page.Footer style={{ textAlign: "right", marginBottom: "20px" }}>
-        <Dot type="error" style={{ fontWeight: "bold" }}>
-          hsvchcl Github
+        <Dot type="error" style={{ fontWeight: "bold" }} className="home__dot_capitalize">
+          https://github.com/hsvchcl
         </Dot>
       </Page.Footer>
     </Page>
