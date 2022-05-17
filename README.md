@@ -6,7 +6,7 @@ Ya no pierdas mas tiempo buscando sitios para descargar videos o musica de Youtu
 YouDown! es una aplicación de escritorio (por el momento solo para MAC) que permite la descarga de audio y/o videos desde youtube al instante.
 
 
-![Pantalla](https://firebasestorage.googleapis.com/v0/b/hsvchcl-you-down.appspot.com/o/interaction.gif?alt=media&token=72923907-48cf-458b-89b9-74eab86a4ecc)
+![Pantalla](https://firebasestorage.googleapis.com/v0/b/hsvchcl-you-down.appspot.com/o/other.gif?alt=media&token=24f38359-b4b2-4a14-b55b-0049ae2469b6)
 
 ## Entorno
 Para poder ejecutar esta aplicación en tu equipo necesitas dos piezas y tener instalado lo siguiente. 
