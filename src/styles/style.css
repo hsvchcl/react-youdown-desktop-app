@@ -9,3 +9,7 @@
 .home__dot_capitalize{
     text-transform: lowercase !important;
 }
+
+.modal__blured{
+    backdrop-filter: blur(12px) !important; 
+}

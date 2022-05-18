@@ -1,8 +1,6 @@
 const { app, BrowserWindow } = require("electron");
-
 const path = require("path");
 const isDev = require("electron-is-dev");
-
 require("@electron/remote/main").initialize();
 
 function createWindow() {
@@ -10,13 +8,13 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 900,
     height: 700,
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: "hiddenInset",
     frame: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
       disableHtmlFullscreenWindowResize: true,
-    }
+    },
   });
 
   win.loadURL(

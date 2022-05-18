@@ -1,4 +1,5 @@
 import "../styles/style.css";
+import { useEffect, useState } from "react";
 import {
   Page,
   Text,
@@ -7,16 +8,20 @@ import {
   Toggle,
   Dot,
   Image,
+  Grid,
+  Button,
+  Spacer,
 } from "@geist-ui/core";
+import { Twitch, Twitter, Settings } from "@geist-ui/icons";
+import { get } from "lodash";
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
 import { InputVideoUrl } from "../components/inputVideoUrl";
-import { Twitch, Twitter } from "@geist-ui/icons";
-import { useEffect, useState } from "react";
 import { validateUrl, clearURL } from "../utils/index";
 import { ModalMessage } from "../components/ModalMessage/ModalMessage";
-import { downloadVideo, checkAPIStatus } from "../api/api";
+import { ModalConfig } from "../components/ModalConfig/ModalConfig";
+import { downloadVideo, checkAPIStatus, getConfiguration } from "../api/api";
 import Logo from "../assets/logo_svg.svg";
 
 export const Home = ({ switchThemes }) => {
@@ -24,6 +29,7 @@ export const Home = ({ switchThemes }) => {
   const [tabSel, setTabSel] = useState("audioonly");
   const [btnLoading, setBtnLoading] = useState(false);
   const [openCloseModal, setOpenCloseModal] = useState(false);
+  const [openCloseModalConfig, setOpenCloseModalConfig] = useState(false);
   const { setToast } = useToasts({ placement: "bottomLeft" });
 
   useEffect(() => {
@@ -63,10 +69,21 @@ export const Home = ({ switchThemes }) => {
         }
       });
     }
+
+    //Check api status
     checkStatus();
     setInterval(function () {
       checkStatus();
     }, 30000);
+
+    // Check config
+    getConfiguration().then((result) => {
+      const ffmpegPath = get(result, "config.ffmpeg_installation_path", null);
+      const downloadFilePath = get(result, "config.download_file_path", null);
+      if (!ffmpegPath && !downloadFilePath) {
+        setOpenCloseModalConfig(true);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -89,7 +106,7 @@ export const Home = ({ switchThemes }) => {
         type: tabSel,
         path: "Downloads",
       };
-      
+
       const downloadProccess = await downloadVideo(JSON.stringify(queryObject));
       setBtnLoading(false);
       setToast({
@@ -115,12 +132,28 @@ export const Home = ({ switchThemes }) => {
       width={50}
     >
       <ModalMessage open={openCloseModal} />
-      <Toggle
-        type="secondary"
-        initialChecked={false}
-        onChange={switchThemes}
-        className="claseCheck"
-      />
+      <ModalConfig open={openCloseModalConfig} />
+      <Grid.Container gap={2}>
+        <Grid md={12} justify="left">
+          <Toggle
+            type="secondary"
+            initialChecked={false}
+            onChange={switchThemes}
+            className="claseCheck"
+          />
+        </Grid>
+        <Grid md={12} justify="right">
+          <Spacer w={"100%"} />
+          <Button
+            iconRight={<Settings />}
+            auto
+            scale={2 / 3}
+            px={0.6}
+            type="secondary"
+          />
+        </Grid>
+      </Grid.Container>
+
       <Text style={{ textAlign: "center" }} h1>
         <Image width="128px" height="128px" src={Logo} /> YouDown!
       </Text>
@@ -145,7 +178,11 @@ export const Home = ({ switchThemes }) => {
         ))}
       </Tab>
       <Page.Footer style={{ textAlign: "right", marginBottom: "20px" }}>
-        <Dot type="error" style={{ fontWeight: "bold" }} className="home__dot_capitalize">
+        <Dot
+          type="error"
+          style={{ fontWeight: "bold" }}
+          className="home__dot_capitalize"
+        >
           https://github.com/hsvchcl
         </Dot>
       </Page.Footer>
