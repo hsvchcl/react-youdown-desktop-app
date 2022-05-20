@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL_DEV;
+const API_URL = process.env.REACT_APP_API;
 
 export const downloadVideo = (listUrlsBody) => {
   return fetch(`${API_URL}/download-video-list`, {
@@ -48,6 +48,29 @@ export const getConfiguration = () => {
       headers: {
         "Content-Type": "application/json",
       },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((resp) => {
+        return resp;
+      })
+      .catch((err) => handleError(err.message));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const saveConfiguration = (form) => {
+  try {
+    return fetch(`${API_URL}/save-config`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
     })
       .then((response) => {
         if (response.ok) {

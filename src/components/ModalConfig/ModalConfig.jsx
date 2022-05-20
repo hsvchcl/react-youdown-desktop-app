@@ -1,6 +1,50 @@
-import { Modal, Button, Input, Spacer } from "@geist-ui/core";
-import { Save } from "@geist-ui/icons";
-export const ModalConfig = ({ open }) => {
+import { useEffect, useState } from "react";
+import { Modal, Input, Spacer, useToasts } from "@geist-ui/core";
+import { saveConfiguration } from "../../api/api";
+export const ModalConfig = ({
+  open,
+  config,
+  setOpenCloseModalConfig,
+  setConfig,
+}) => {
+  const [form, setForm] = useState({ path_ffmpeg: "", path_downloads: "" });
+  const [formInvalid, setFormInvalid] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { setToast } = useToasts({ placement: "bottomLeft" });
+
+  useEffect(() => {
+    const isValidPathFfmpeg = validatePathFormat(form.path_ffmpeg);
+    const isValidPathDownloads = validatePathFormat(form.path_downloads);
+
+    if (isValidPathFfmpeg && isValidPathDownloads) {
+      setFormInvalid(false);
+    } else {
+      setFormInvalid(true);
+    }
+  }, [form]);
+
+  const validatePathFormat = (path) => {
+    return /((\\|\/)[a-z0-9\s_@\-^!#$%&+={}\[\]]+)/i.test(path);
+  };
+
+  const saveConfig = (form) => {
+    setLoading(true);
+    saveConfiguration(form).then((result) => {
+      if (result.status) {
+        setLoading(false);
+        setToast({
+          text: result.message,
+          delay: 2000,
+          type: "success",
+        });
+        setConfig(form);
+        setTimeout(() => {
+          setOpenCloseModalConfig(false);
+        }, 2000);
+      }
+    });
+  };
+
   return (
     <Modal
       visible={open}
@@ -11,27 +55,43 @@ export const ModalConfig = ({ open }) => {
       {/* <Modal.Subtitle>This is a modal</Modal.Subtitle> */}
       <Modal.Content style={{ textAlign: "left" }}>
         <p>
-          Para poder utilizar esta aplicacion se require configurar las
-          siguientes variables:
+          Para poder utilizar esta aplicacion se require configurar variables de
+          entorno
         </p>
         <Spacer h={1} />
-        <Input placeholder="/opt/homebrew/Cellar/ffmpeg/5.0.1/bin/ffmpeg" width="100%">
-          Path de instalación Ffmpeg
+        <Input
+          placeholder="/opt/homebrew/Cellar/ffmpeg/5.0.1/bin/ffmpeg"
+          width="100%"
+          initialValue={config?.path_ffmpeg}
+          onChange={(value) =>
+            setForm({ ...form, path_ffmpeg: value.target.value })
+          }
+        >
+          Ruta de librería Ffmpeg
         </Input>
         <Spacer h={1} />
-        <Input placeholder="/Users/hnsvchcl/Downloads" width="100%" >
-          Path para almacenar las descargas
+        <Input
+          placeholder="/Users/hnsvchcl/Downloads"
+          width="100%"
+          initialValue={config?.path_downloads}
+          onChange={(value) =>
+            setForm({ ...form, path_downloads: value.target.value })
+          }
+        >
+          Ruta donde almacenará las descargas
         </Input>
         <Spacer h={2} />
-        <Button
-          icon={<Save />}
-          shadow
-          onClick={() => document.location.reload(true)}
-          type="secondary"
-        >
-          Guardar
-        </Button>
       </Modal.Content>
+      <Modal.Action passive onClick={() => setOpenCloseModalConfig(false)}>
+        Cerrar
+      </Modal.Action>
+      <Modal.Action
+        disabled={formInvalid}
+        loading={loading}
+        onClick={() => saveConfig(form)}
+      >
+        Guardar
+      </Modal.Action>
     </Modal>
   );
 };

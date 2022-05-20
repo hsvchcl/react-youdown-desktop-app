@@ -30,6 +30,7 @@ export const Home = ({ switchThemes }) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [openCloseModal, setOpenCloseModal] = useState(false);
   const [openCloseModalConfig, setOpenCloseModalConfig] = useState(false);
+  const [config, setConfig] = useState({});
   const { setToast } = useToasts({ placement: "bottomLeft" });
 
   useEffect(() => {
@@ -78,10 +79,13 @@ export const Home = ({ switchThemes }) => {
 
     // Check config
     getConfiguration().then((result) => {
-      const ffmpegPath = get(result, "config.ffmpeg_installation_path", null);
-      const downloadFilePath = get(result, "config.download_file_path", null);
+      console.log(result);
+      const ffmpegPath = get(result, "config.path_downloads", null);
+      const downloadFilePath = get(result, "config.path_ffmpeg", null);
       if (!ffmpegPath && !downloadFilePath) {
         setOpenCloseModalConfig(true);
+      } else {
+        setConfig(result.config);
       }
     });
   }, []);
@@ -132,7 +136,12 @@ export const Home = ({ switchThemes }) => {
       width={50}
     >
       <ModalMessage open={openCloseModal} />
-      <ModalConfig open={openCloseModalConfig} />
+      <ModalConfig
+        open={openCloseModalConfig}
+        config={config}
+        setOpenCloseModalConfig={setOpenCloseModalConfig}
+        setConfig={setConfig}
+      />
       <Grid.Container gap={2}>
         <Grid md={12} justify="left">
           <Toggle
@@ -150,6 +159,7 @@ export const Home = ({ switchThemes }) => {
             scale={2 / 3}
             px={0.6}
             type="secondary"
+            onClick={() => setOpenCloseModalConfig(true)}
           />
         </Grid>
       </Grid.Container>
