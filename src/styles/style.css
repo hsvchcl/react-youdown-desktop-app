@@ -10,6 +10,28 @@
     text-transform: lowercase !important;
 }
 
+.home__h3_menu_style{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.home__h3_menu_style h3{
+    margin: 0px;
+}
+
 .modal__blured{
     backdrop-filter: blur(12px) !important; 
+}
+
+.drawer__menus{
+    transition: .5s;
+}
+
+.drawer__menus:hover{
+    transform: scale(1.05);
+    color: gainsboro;
+    cursor: pointer;
 }

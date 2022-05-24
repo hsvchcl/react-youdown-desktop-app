@@ -2,17 +2,16 @@ import "../styles/style.css";
 import { useEffect, useState } from "react";
 import {
   Page,
-  Text,
   Tabs,
   useToasts,
   Toggle,
-  Dot,
-  Image,
-  Grid,
   Button,
+  Grid,
   Spacer,
+  Drawer,
+  Divider,
 } from "@geist-ui/core";
-import { Twitch, Twitter, Settings } from "@geist-ui/icons";
+import { Twitch, Twitter, Settings, Menu, Info } from "@geist-ui/icons";
 import { get } from "lodash";
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
@@ -21,6 +20,8 @@ import { InputVideoUrl } from "../components/inputVideoUrl";
 import { validateUrl, clearURL } from "../utils/index";
 import { ModalMessage } from "../components/ModalMessage/ModalMessage";
 import { ModalConfig } from "../components/ModalConfig/ModalConfig";
+import { ModalInfo } from "../components/ModalInfo/ModalInfo";
+import { ModalDownloadMessage } from "../components/ModalDownloadComplete/DownloadComplete";
 import { downloadVideo, checkAPIStatus, getConfiguration } from "../api/api";
 import Logo from "../assets/logo_svg.svg";
 
@@ -30,7 +31,12 @@ export const Home = ({ switchThemes }) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [openCloseModal, setOpenCloseModal] = useState(false);
   const [openCloseModalConfig, setOpenCloseModalConfig] = useState(false);
+  const [openCloseModalInfo, setOpenCloseModalInfo] = useState(false);
+  const [openCloseModalDownloadMessage, setOpenCloseModalDownloadMessage] =
+    useState(false);
   const [config, setConfig] = useState({});
+  const [stateDrawer, setDrawerState] = useState(false);
+
   const { setToast } = useToasts({ placement: "bottomLeft" });
 
   useEffect(() => {
@@ -113,12 +119,23 @@ export const Home = ({ switchThemes }) => {
 
       const downloadProccess = await downloadVideo(JSON.stringify(queryObject));
       setBtnLoading(false);
+
+      const action = {
+        name: "ok",
+        passive: true,
+        handler: (event, cancel) => cancel(),
+      };
+
       setToast({
         text: downloadProccess.message,
-        delay: 5000,
-        type: downloadProccess.status ? "success" : "error",
+        delay: 60000,
+        type: downloadProccess.status ? "" : "error",
+        actions: [action],
       });
+
+      setOpenCloseModalDownloadMessage(true);
     } else {
+      setBtnLoading(false);
       setToast({
         text: "Debe ingresar una URL válida",
         delay: 2000,
@@ -135,38 +152,42 @@ export const Home = ({ switchThemes }) => {
       dotSpace={0.6}
       width={50}
     >
-      <ModalMessage open={openCloseModal} />
+      <ModalMessage
+        open={openCloseModal}
+        setOpenCloseModal={setOpenCloseModal}
+      />
+      <ModalInfo
+        open={openCloseModalInfo}
+        setOpenCloseModalInfo={setOpenCloseModalInfo}
+      />
       <ModalConfig
         open={openCloseModalConfig}
         config={config}
         setOpenCloseModalConfig={setOpenCloseModalConfig}
         setConfig={setConfig}
       />
+      <ModalDownloadMessage
+        open={openCloseModalDownloadMessage}
+        setOpenCloseModalDownloadMessage={setOpenCloseModalDownloadMessage}
+      />
       <Grid.Container gap={2}>
         <Grid md={12} justify="left">
-          <Toggle
-            type="secondary"
-            initialChecked={false}
-            onChange={switchThemes}
-            className="claseCheck"
-          />
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <img src={Logo} height="40px" alt="" />
+            <span style={{ fontSize: "30px", fontWeight: 700 }}>YouDown!</span>
+          </div>
         </Grid>
         <Grid md={12} justify="right">
           <Spacer w={"100%"} />
           <Button
-            iconRight={<Settings />}
+            icon={<Menu />}
             auto
-            scale={2 / 3}
-            px={0.6}
-            type="secondary"
-            onClick={() => setOpenCloseModalConfig(true)}
+            onClick={() => setDrawerState(true)}
+            scale={1}
           />
         </Grid>
       </Grid.Container>
-
-      <Text style={{ textAlign: "center" }} h1>
-        <Image width="128px" height="128px" src={Logo} /> YouDown!
-      </Text>
+      <Spacer h={6} />
       <Tab initialOpenTab={"audioonly"} setTabSel={setTabSel}>
         {menuItems.map((menuItem) => (
           <Tabs.Item
@@ -187,15 +208,49 @@ export const Home = ({ switchThemes }) => {
           </Tabs.Item>
         ))}
       </Tab>
-      <Page.Footer style={{ textAlign: "right", marginBottom: "20px" }}>
-        <Dot
-          type="error"
-          style={{ fontWeight: "bold" }}
-          className="home__dot_capitalize"
-        >
-          https://github.com/hsvchcl
-        </Dot>
+      <Page.Footer style={{ textAlign: "right", marginBottom: "30px" }}>
+        <Toggle
+          type="secondary"
+          initialChecked={false}
+          onChange={switchThemes}
+          className="claseCheck"
+        />
       </Page.Footer>
+      <Drawer
+        visible={stateDrawer}
+        onClose={() => setDrawerState(false)}
+        placement="right"
+        width={18}
+      >
+        {/* <Drawer.Title>YouDown</Drawer.Title> */}
+        <Drawer.Subtitle>Opciones</Drawer.Subtitle>
+        <Drawer.Content>
+          <div className="drawer__menus home__h3_menu_style">
+            <Settings />
+            <h3
+              onClick={() => {
+                setOpenCloseModalConfig(true);
+                setDrawerState(false);
+              }}
+            >
+              Configuración
+            </h3>
+          </div>
+
+          <Divider></Divider>
+          <div className="drawer__menus home__h3_menu_style">
+            <Info />
+            <h3
+              onClick={() => {
+                setOpenCloseModalInfo(true);
+                setDrawerState(false);
+              }}
+            >
+              Información
+            </h3>
+          </div>
+        </Drawer.Content>
+      </Drawer>
     </Page>
   );
 };

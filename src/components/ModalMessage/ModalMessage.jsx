@@ -1,6 +1,6 @@
 import { Modal, Button } from "@geist-ui/core";
 import { RefreshCw } from "@geist-ui/icons";
-export const ModalMessage = ({ open }) => {
+export const ModalMessage = ({ open }, setOpenCloseModal) => {
   return (
     <Modal
       visible={open}
@@ -14,7 +14,7 @@ export const ModalMessage = ({ open }) => {
         <Button
           icon={<RefreshCw />}
           shadow
-          onClick={() => document.location.reload(true)}
+          onClick={() => setOpenCloseModal(false)}
           type="secondary"
         >
           Recargar
