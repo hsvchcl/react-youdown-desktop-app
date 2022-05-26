@@ -14,7 +14,7 @@ export const ModalMessage = ({ open }, setOpenCloseModal) => {
         <Button
           icon={<RefreshCw />}
           shadow
-          onClick={() => setOpenCloseModal(false)}
+          onClick={() => window.location.reload()}
           type="secondary"
         >
           Recargar

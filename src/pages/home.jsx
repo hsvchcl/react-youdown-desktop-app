@@ -36,6 +36,7 @@ export const Home = ({ switchThemes }) => {
     useState(false);
   const [config, setConfig] = useState({});
   const [stateDrawer, setDrawerState] = useState(false);
+  const [downloadInfo, setDownloadInfo] = useState({});
 
   const { setToast } = useToasts({ placement: "bottomLeft" });
 
@@ -119,26 +120,13 @@ export const Home = ({ switchThemes }) => {
 
       const downloadProccess = await downloadVideo(JSON.stringify(queryObject));
       setBtnLoading(false);
-
-      const action = {
-        name: "ok",
-        passive: true,
-        handler: (event, cancel) => cancel(),
-      };
-
-      setToast({
-        text: downloadProccess.message,
-        delay: 60000,
-        type: downloadProccess.status ? "" : "error",
-        actions: [action],
-      });
-
+      setDownloadInfo(downloadProccess);
       setOpenCloseModalDownloadMessage(true);
     } else {
       setBtnLoading(false);
       setToast({
-        text: "Debe ingresar una URL válida",
-        delay: 2000,
+        text: "Por favor ingrese una URL válida",
+        delay: 3000,
         type: "error",
       });
     }
@@ -169,12 +157,13 @@ export const Home = ({ switchThemes }) => {
       <ModalDownloadMessage
         open={openCloseModalDownloadMessage}
         setOpenCloseModalDownloadMessage={setOpenCloseModalDownloadMessage}
+        downloadInfo={downloadInfo}
       />
       <Grid.Container gap={2}>
         <Grid md={12} justify="left">
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <img src={Logo} height="40px" alt="" />
-            <span style={{ fontSize: "30px", fontWeight: 700 }}>YouDown!</span>
+            <span style={{ fontSize: "30px", fontWeight: 700 }}>YouDown</span>
           </div>
         </Grid>
         <Grid md={12} justify="right">
@@ -224,7 +213,7 @@ export const Home = ({ switchThemes }) => {
       >
         {/* <Drawer.Title>YouDown</Drawer.Title> */}
         <Drawer.Subtitle>Opciones</Drawer.Subtitle>
-        <Drawer.Content>
+        <Drawer.Content style={{ padding: "40px" }}>
           <div className="drawer__menus home__h3_menu_style">
             <Settings />
             <h3

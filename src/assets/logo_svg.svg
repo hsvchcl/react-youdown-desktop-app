@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="900px" height="900px" viewBox="0 0 900 900" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Group 4</title>
+    <title>logo_svg</title>
     <defs>
         <linearGradient x1="5.80385982%" y1="8.00141203e-15%" x2="59.5102552%" y2="89.18419%" id="linearGradient-1">
             <stop stop-color="#FF6C6C" stop-opacity="0.981479458" offset="0%"></stop>
@@ -9,14 +9,21 @@
         <rect id="path-2" x="0" y="0" width="900" height="900" rx="450"></rect>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group-3">
-            <mask id="mask-3" fill="white">
-                <use xlink:href="#path-2"></use>
-            </mask>
-            <use id="Rectangle" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
-            <g id="Y" mask="url(#mask-3)" fill="#FFFFFF" fill-rule="nonzero">
-                <g transform="translate(217.702224, 154.111136)" id="Path">
-                    <polygon points="288.922924 745.650499 288.922924 441.132161 328.452387 545.689671 0 0 183.616435 0 434.491211 418.363191 329.517602 418.363191 581.873693 0 750.826778 0 423.223234 545.689671 461.903854 441.132161 461.903854 745.650499"></polygon>
+        <g id="logo_svg">
+            <g id="Rectangle" fill="url(#linearGradient-1)" fill-rule="nonzero">
+                <rect id="path-2" x="0" y="0" width="900" height="900" rx="450"></rect>
+            </g>
+            <g id="Y-Clipped">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="path-2" fill="#FF332F" xlink:href="#path-2"></use>
+                <g id="Y" mask="url(#mask-3)">
+                    <g transform="translate(217.702224, 154.111136)" id="Path">
+                        <g transform="translate(0.000000, 0.000000)">
+                            <polygon fill="#FFFFFF" fill-rule="nonzero" points="288.922924 745.650499 288.922924 441.132161 328.452387 545.689671 0 0 183.616435 0 434.491211 418.363191 329.517602 418.363191 581.873693 0 750.826778 0 423.223234 545.689671 461.903854 441.132161 461.903854 745.650499"></polygon>
+                        </g>
+                    </g>
                 </g>
             </g>
         </g>
