@@ -210,6 +210,8 @@ export const Home = ({ switchThemes }) => {
         onClose={() => setDrawerState(false)}
         placement="right"
         width={18}
+        height={14}
+        style={{ top: 10, right:10, bottom:10, borderTopRightRadius:20, borderBottomRightRadius: 20}}
       >
         {/* <Drawer.Title>YouDown</Drawer.Title> */}
         <Drawer.Subtitle>Opciones</Drawer.Subtitle>
