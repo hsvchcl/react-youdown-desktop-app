@@ -1,31 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="900px" height="900px" viewBox="0 0 900 900" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>logo_svg</title>
-    <defs>
-        <linearGradient x1="5.80385982%" y1="8.00141203e-15%" x2="59.5102552%" y2="89.18419%" id="linearGradient-1">
-            <stop stop-color="#FF6C6C" stop-opacity="0.981479458" offset="0%"></stop>
-            <stop stop-color="#C90303" offset="100%"></stop>
-        </linearGradient>
-        <rect id="path-2" x="0" y="0" width="900" height="900" rx="450"></rect>
-    </defs>
+<svg width="1512px" height="891px" viewBox="0 0 1512 891" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 6</title>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="logo_svg">
-            <g id="Rectangle" fill="url(#linearGradient-1)" fill-rule="nonzero">
-                <rect id="path-2" x="0" y="0" width="900" height="900" rx="450"></rect>
-            </g>
-            <g id="Y-Clipped">
-                <mask id="mask-3" fill="white">
-                    <use xlink:href="#path-2"></use>
-                </mask>
-                <use id="path-2" fill="#FF332F" xlink:href="#path-2"></use>
-                <g id="Y" mask="url(#mask-3)">
-                    <g transform="translate(217.702224, 154.111136)" id="Path">
-                        <g transform="translate(0.000000, 0.000000)">
-                            <polygon fill="#FFFFFF" fill-rule="nonzero" points="288.922924 745.650499 288.922924 441.132161 328.452387 545.689671 0 0 183.616435 0 434.491211 418.363191 329.517602 418.363191 581.873693 0 750.826778 0 423.223234 545.689671 461.903854 441.132161 461.903854 745.650499"></polygon>
-                        </g>
-                    </g>
-                </g>
-            </g>
+        <g id="Group-6">
+            <rect id="Rectangle" fill="#000000" x="0" y="0" width="1512" height="891" rx="200"></rect>
+            <polygon id="Triangle" fill="#20FFFA" transform="translate(890.500000, 411.500000) rotate(90.000000) translate(-890.500000, -411.500000) " points="890.5 198 1154 625 627 625"></polygon>
+            <polygon id="Triangle" fill="#FF00FA" transform="translate(798.500000, 411.500000) rotate(90.000000) translate(-798.500000, -411.500000) " points="798.5 198 1062 625 535 625"></polygon>
+            <polygon id="Triangle" fill="#FFFFFF" transform="translate(704.500000, 411.500000) rotate(90.000000) translate(-704.500000, -411.500000) " points="704.5 198 968 625 441 625"></polygon>
         </g>
     </g>
 </svg>

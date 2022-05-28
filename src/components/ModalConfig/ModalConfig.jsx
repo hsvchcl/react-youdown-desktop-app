@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { Modal, Input, Spacer, useToasts } from "@geist-ui/core";
+import { Modal, Input, Spacer, useToasts, Card, Button } from "@geist-ui/core";
+import { Github } from "@geist-ui/icons";
 import { saveConfiguration } from "../../api/api";
+var shell = window.require("electron").shell;
+
 export const ModalConfig = ({
   open,
   config,
@@ -81,8 +84,31 @@ export const ModalConfig = ({
           Ruta donde almacenará las descargas
         </Input>
         <Spacer h={2} />
+        <Card hoverable>
+          <div className="modal_config__card_info">
+            <p>Revisa el manual en:</p>
+            <Button
+              type="secondary"
+              icon={<Github />}
+              ghost
+              auto
+              scale={0.7}
+              onClick={() => {
+                shell.openExternal(
+                  "https://github.com/hsvchcl/react-youdown-desktop-app"
+                );
+              }}
+            >
+              GitHub
+            </Button>
+          </div>
+        </Card>
       </Modal.Content>
-      <Modal.Action passive onClick={() => setOpenCloseModalConfig(false)}>
+      <Modal.Action
+        disabled={formInvalid}
+        passive
+        onClick={() => setOpenCloseModalConfig(false)}
+      >
         Cerrar
       </Modal.Action>
       <Modal.Action

@@ -12,8 +12,10 @@ function createWindow() {
     frame: true,
     webPreferences: {
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       enableRemoteModule: true,
       disableHtmlFullscreenWindowResize: true,
+      contextIsolation: false,
     },
   });
 

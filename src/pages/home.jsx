@@ -8,20 +8,24 @@ import {
   Button,
   Grid,
   Spacer,
-  Drawer,
-  Divider,
+  Card,
+  Text,
+  Image,
+  Badge
 } from "@geist-ui/core";
-import { Twitch, Twitter, Settings, Menu, Info } from "@geist-ui/icons";
-import { get } from "lodash";
+import { Twitch, Twitter, Menu } from "@geist-ui/icons";
+import { get, isEmpty } from "lodash";
+
 import { Tab } from "../components/tab";
 import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
 import { InputVideoUrl } from "../components/inputVideoUrl";
-import { validateUrl, clearURL } from "../utils/index";
 import { ModalMessage } from "../components/ModalMessage/ModalMessage";
 import { ModalConfig } from "../components/ModalConfig/ModalConfig";
 import { ModalInfo } from "../components/ModalInfo/ModalInfo";
 import { ModalDownloadMessage } from "../components/ModalDownloadComplete/DownloadComplete";
+import { DrawerLateral } from "../components/DrawerLateralMenu/DrawerLateral";
+import { validateUrl, clearURL } from "../utils/index";
 import { downloadVideo, checkAPIStatus, getConfiguration } from "../api/api";
 import Logo from "../assets/logo_svg.svg";
 
@@ -37,6 +41,7 @@ export const Home = ({ switchThemes }) => {
   const [config, setConfig] = useState({});
   const [stateDrawer, setDrawerState] = useState(false);
   const [downloadInfo, setDownloadInfo] = useState({});
+  const [videoInfo, setVideoInfo] = useState({});
 
   const { setToast } = useToasts({ placement: "bottomLeft" });
 
@@ -82,20 +87,32 @@ export const Home = ({ switchThemes }) => {
     checkStatus();
     setInterval(function () {
       checkStatus();
-    }, 30000);
+    }, 5000);
 
     // Check config
-    getConfiguration().then((result) => {
-      console.log(result);
-      const ffmpegPath = get(result, "config.path_downloads", null);
-      const downloadFilePath = get(result, "config.path_ffmpeg", null);
-      if (!ffmpegPath && !downloadFilePath) {
-        setOpenCloseModalConfig(true);
-      } else {
-        setConfig(result.config);
-      }
-    });
   }, []);
+
+  useEffect(() => {
+    if (openCloseModal === false) {
+      getConfiguration().then((result) => {
+        const ffmpegPath = get(result, "config.path_downloads", null);
+        const downloadFilePath = get(result, "config.path_ffmpeg", null);
+        if (!ffmpegPath && !downloadFilePath) {
+          setOpenCloseModalConfig(true);
+        } else {
+          setConfig(result.config);
+        }
+      });
+    } else {
+      setOpenCloseModalConfig(false);
+    }
+  }, [openCloseModal]);
+
+  useEffect(() => {
+    if (!isEmpty(videoInfo)) {
+      console.log(videoInfo);
+    }
+  }, [videoInfo]);
 
   useEffect(() => {
     if (btnLoading) {
@@ -148,6 +165,7 @@ export const Home = ({ switchThemes }) => {
         open={openCloseModalInfo}
         setOpenCloseModalInfo={setOpenCloseModalInfo}
       />
+      {/* Config Modal */}
       <ModalConfig
         open={openCloseModalConfig}
         config={config}
@@ -191,6 +209,7 @@ export const Home = ({ switchThemes }) => {
                 <InputVideoUrl
                   downloadVideo={downloadVideoByUrl}
                   btnLoading={btnLoading}
+                  setVideoInfo={setVideoInfo}
                 />
               </Section>
             </DownloadSection>
@@ -205,43 +224,16 @@ export const Home = ({ switchThemes }) => {
           className="claseCheck"
         />
       </Page.Footer>
-      <Drawer
-        visible={stateDrawer}
-        onClose={() => setDrawerState(false)}
-        placement="right"
-        width={18}
-        height={14}
-        style={{ top: 10, right:10, bottom:10, borderTopRightRadius:20, borderBottomRightRadius: 20}}
-      >
-        {/* <Drawer.Title>YouDown</Drawer.Title> */}
-        <Drawer.Subtitle>Opciones</Drawer.Subtitle>
-        <Drawer.Content style={{ padding: "40px" }}>
-          <div className="drawer__menus home__h3_menu_style">
-            <Settings />
-            <h3
-              onClick={() => {
-                setOpenCloseModalConfig(true);
-                setDrawerState(false);
-              }}
-            >
-              Configuración
-            </h3>
-          </div>
 
-          <Divider></Divider>
-          <div className="drawer__menus home__h3_menu_style">
-            <Info />
-            <h3
-              onClick={() => {
-                setOpenCloseModalInfo(true);
-                setDrawerState(false);
-              }}
-            >
-              Información
-            </h3>
-          </div>
-        </Drawer.Content>
-      </Drawer>
+      {/* {!isEmpty(videoInfo) && }; */}
+
+      {/* Menu */}
+      <DrawerLateral
+        setDrawerState={setDrawerState}
+        setOpenCloseModalConfig={setOpenCloseModalConfig}
+        setOpenCloseModalInfo={setOpenCloseModalInfo}
+        stateDrawer={stateDrawer}
+      />
     </Page>
   );
 };

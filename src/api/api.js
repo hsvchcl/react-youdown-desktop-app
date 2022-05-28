@@ -86,6 +86,29 @@ export const saveConfiguration = (form) => {
   }
 };
 
+export const getVideoInfo = (videoUrl) => {
+  try {
+    return fetch(`${API_URL}/video-info?video_url=${videoUrl}`, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((resp) => {
+        return resp;
+      })
+      .catch((err) => handleError(err.message));
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 const handleError = (error) => {
   return { status: false, error: error };
 };
