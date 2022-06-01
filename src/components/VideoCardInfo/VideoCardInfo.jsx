@@ -1,52 +1,65 @@
-import { Spacer, Card, Text, Image, Badge } from "@geist-ui/core";
-import { XCircleFill } from "@geist-ui/icons";
+import { Spacer, Card, Text, Badge, ButtonGroup, Button } from "@geist-ui/core";
+import { XCircleFill, Music, Video } from "@geist-ui/icons";
 export const VideoCardInfo = ({
   videoInfo,
   openAnimation,
   setOpenAnimation,
   setVisibleCard,
-  setVideoInfo
+  setVideoInfo,
+  downloadVideoByUrl,
+  btnLoading,
 }) => {
   return (
-    <div
-      style={{
-        width: 350,
-        position: "absolute",
-        bottom: 20,
-        right: -30,
-        zIndex: 1000,
-      }}
-      className={openAnimation ? "scale-up-bottom" : "scale-down-bottom"}
-    >
-      <Card shadow hoverable>
-        <Card.Content style={{ textAlign: "end", paddingBottom: 0 }}>
-          <span style={{ cursor: "pointer" }}>
-            <XCircleFill
-              onClick={() => {
-                setOpenAnimation(false);
-                setTimeout(() => {
-                  setVisibleCard(false);
-                  setVideoInfo({})
-                }, 500);
-              }}
-            />
-          </span>
-        </Card.Content>
-        <Card.Content style={{ paddingTop: 0 }}>
-          <Image
-            draggable={false}
-            src={videoInfo.thumbail.url}
-          />
-          <div>
+    <div className={"video_card_info__card"}>
+      <Card
+        shadow
+        hoverable
+        className={openAnimation ? "scale-up-top" : "scale-down-top"}
+      >
+        <Card.Content
+          style={{ paddingTop: 0, paddingBottom: 0, paddingLeft: 0 }}
+          className="home__card_video_info"
+        >
+          <img src={videoInfo.thumbail.url} alt="image" />
+          <div style={{ marginTop: 10, width: "100%" }}>
+            <div style={{ textAlign: "end" }}>
+              <span style={{ cursor: "pointer" }}>
+                <XCircleFill
+                  onClick={() => {
+                    setOpenAnimation(false);
+                    setTimeout(() => {
+                      setVisibleCard(false);
+                      setVideoInfo({});
+                    }, 500);
+                  }}
+                />
+              </span>
+            </div>
+            <Spacer h={1}></Spacer>
+            <Badge scale={0.9} marginBottom={0.5} type="secondary">
+              {videoInfo.author.name}
+            </Badge>
             <Text h5 my={0}>
               {videoInfo.title}
             </Text>
-            <Badge type="warning">{videoInfo.author.name}</Badge>{" "}
-            <Spacer h={0.5} />
-            {/* <Text>
-                Introduced in HTTP/1.0, HTTP headers make this protocol easy to
-                extend
-              </Text> */}
+            <Spacer h={1} />
+            <ButtonGroup scale={1 / 3}>
+              <Button
+                loading={btnLoading}
+                icon={<Music />}
+                scale={1 / 3}
+                onClick={() => {
+                  const urlVideo = videoInfo.video_url;
+                  const typeDownload = "audioonly";
+                  downloadVideoByUrl({ urlVideo, typeDownload });
+                }}
+              >
+                Descargar Audio
+              </Button>
+              <Button icon={<Video />} scale={1 / 3}>
+                Descargar Video
+              </Button>
+            </ButtonGroup>
           </div>
         </Card.Content>
       </Card>

@@ -1,19 +1,9 @@
 import "../styles/style.css";
 import { useEffect, useState } from "react";
-import {
-  Page,
-  Tabs,
-  useToasts,
-  Toggle,
-  Button,
-  Grid,
-  Spacer,
-} from "@geist-ui/core";
-import { Twitch, Twitter, Menu } from "@geist-ui/icons";
+import { Page, useToasts, Toggle, Spacer } from "@geist-ui/core";
+import { Twitch, Twitter, Settings } from "@geist-ui/icons";
 import { get, isEmpty } from "lodash";
 
-import { Tab } from "../components/tab";
-import { DownloadSection } from "../components/downloadSection";
 import { Section } from "../components/section";
 import { InputVideoUrl } from "../components/inputVideoUrl";
 import { ModalMessage } from "../components/ModalMessage/ModalMessage";
@@ -25,7 +15,7 @@ import { VideoCardInfo } from "../components/VideoCardInfo/VideoCardInfo";
 import { validateUrl, clearURL } from "../utils/index";
 import { downloadVideo, checkAPIStatus, getConfiguration } from "../api/api";
 import Logo from "../assets/logo_svg.svg";
-import LogoLigth from '../assets/logo_ligth.svg';
+import LogoLigth from "../assets/logo_ligth.svg";
 
 export const Home = ({ switchThemes, themeType }) => {
   const [menuItems, setMenuItems] = useState([]);
@@ -127,22 +117,21 @@ export const Home = ({ switchThemes, themeType }) => {
 
   useEffect(() => {
     console.log(themeType);
-    if (themeType === 'light') {
+    if (themeType === "light") {
       setLogo(LogoLigth);
-    }else{
+    } else {
       setLogo(Logo);
     }
   }, [themeType]);
 
-  const downloadVideoByUrl = async (urlVideo) => {
+  const downloadVideoByUrl = async ({ urlVideo, typeDownload = "video" }) => {
     setBtnLoading(true);
     const isValidUrl = validateUrl(urlVideo);
     if (isValidUrl) {
       const urlClean = clearURL(urlVideo);
       const queryObject = {
         videoList: [urlClean],
-        type: tabSel,
-        path: "Downloads",
+        type: typeDownload,
       };
 
       const downloadProccess = await downloadVideo(JSON.stringify(queryObject));
@@ -174,6 +163,8 @@ export const Home = ({ switchThemes, themeType }) => {
           setOpenAnimation={setOpenAnimation}
           setVisibleCard={setVisibleCard}
           setVideoInfo={setVideoInfo}
+          downloadVideoByUrl={downloadVideoByUrl}
+          btnLoading={btnLoading}
         />
       )}
       <ModalMessage
@@ -203,7 +194,7 @@ export const Home = ({ switchThemes, themeType }) => {
         setOpenCloseModalInfo={setOpenCloseModalInfo}
         stateDrawer={stateDrawer}
       />
-      <Spacer h={10}></Spacer>
+      <Spacer h={5}></Spacer>
       <div
         style={{
           display: "flex",
@@ -212,7 +203,12 @@ export const Home = ({ switchThemes, themeType }) => {
           gap: "10px",
         }}
       >
-        <img src={logoSet} height="150px" alt="" className={!isEmpty(videoInfo) ? 'rotate_logo':'rotate_logo_normal'} />
+        <img
+          src={logoSet}
+          height="150px"
+          alt=""
+          className={!isEmpty(videoInfo) ? "rotate_logo" : "rotate_logo_normal"}
+        />
       </div>
       <Spacer h={3}></Spacer>
       <Section>
@@ -224,7 +220,19 @@ export const Home = ({ switchThemes, themeType }) => {
           setVisibleCard={setVisibleCard}
         />
       </Section>
-      <Page.Footer style={{ textAlign: "right", marginBottom: "30px" }}>
+      <Page.Footer
+        style={{
+          marginBottom: "30px",
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          justifyContent: "end",
+          alignItems: "end",
+          gap: 20,
+        }}
+      >
+        <Spacer w={"100%"} />
+        <Settings onClick={() => setOpenCloseModalConfig(true)} />
         <Toggle
           type="secondary"
           initialChecked={false}
