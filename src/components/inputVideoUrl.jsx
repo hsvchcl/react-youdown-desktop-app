@@ -25,7 +25,7 @@ export const InputVideoUrl = ({
   return (
     <>
       <Input
-        scale={4 / 3}
+        scale={1.5}
         icon={<Youtube />}
         placeholder="URL de video en youtube ctrl+v"
         width="100%"
@@ -35,18 +35,6 @@ export const InputVideoUrl = ({
         disabled={btnLoading}
         clearable
       />
-      <Spacer h={2} />
-      <Button
-        iconRight={<Download />}
-        className="input-video-url__button"
-        loading={btnLoading}
-        auto
-        type="secondary"
-        onClick={() => downloadVideo(url)}
-      >
-        Descargar
-      </Button>
-      <Spacer h={1} />
     </>
   );
 };

@@ -25,8 +25,9 @@ import { VideoCardInfo } from "../components/VideoCardInfo/VideoCardInfo";
 import { validateUrl, clearURL } from "../utils/index";
 import { downloadVideo, checkAPIStatus, getConfiguration } from "../api/api";
 import Logo from "../assets/logo_svg.svg";
+import LogoLigth from '../assets/logo_ligth.svg';
 
-export const Home = ({ switchThemes }) => {
+export const Home = ({ switchThemes, themeType }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [tabSel, setTabSel] = useState("audioonly");
   const [btnLoading, setBtnLoading] = useState(false);
@@ -41,6 +42,7 @@ export const Home = ({ switchThemes }) => {
   const [downloadInfo, setDownloadInfo] = useState({});
   const [videoInfo, setVideoInfo] = useState({});
   const [visibleCard, setVisibleCard] = useState(false);
+  const [logoSet, setLogo] = useState(Logo);
 
   const { setToast } = useToasts({ placement: "bottomLeft" });
 
@@ -123,6 +125,15 @@ export const Home = ({ switchThemes }) => {
     }
   }, [btnLoading]);
 
+  useEffect(() => {
+    console.log(themeType);
+    if (themeType === 'light') {
+      setLogo(LogoLigth);
+    }else{
+      setLogo(Logo);
+    }
+  }, [themeType]);
+
   const downloadVideoByUrl = async (urlVideo) => {
     setBtnLoading(true);
     const isValidUrl = validateUrl(urlVideo);
@@ -162,6 +173,7 @@ export const Home = ({ switchThemes }) => {
           openAnimation={openAnimation}
           setOpenAnimation={setOpenAnimation}
           setVisibleCard={setVisibleCard}
+          setVideoInfo={setVideoInfo}
         />
       )}
       <ModalMessage
@@ -184,47 +196,34 @@ export const Home = ({ switchThemes }) => {
         setOpenCloseModalDownloadMessage={setOpenCloseModalDownloadMessage}
         downloadInfo={downloadInfo}
       />
-      <Grid.Container gap={2}>
-        <Grid md={12} justify="left">
-          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <img src={Logo} height="40px" alt="" />
-            <span style={{ fontSize: "30px", fontWeight: 700 }}>YouDown</span>
-          </div>
-        </Grid>
-        <Grid md={12} justify="right">
-          <Spacer w={"100%"} />
-          <Button
-            icon={<Menu />}
-            auto
-            onClick={() => setDrawerState(true)}
-            scale={1}
-          />
-        </Grid>
-      </Grid.Container>
-      <Spacer h={6} />
-      <Tab initialOpenTab={"audioonly"} setTabSel={setTabSel}>
-        {menuItems.map((menuItem) => (
-          <Tabs.Item
-            key={Math.random()}
-            label={menuItem.title}
-            value={menuItem.type}
-          >
-            <DownloadSection>
-              <Section>
-                <h2>{menuItem.title}</h2>
-                <p>{menuItem.description}</p>
-                <InputVideoUrl
-                  downloadVideo={downloadVideoByUrl}
-                  btnLoading={btnLoading}
-                  setVideoInfo={setVideoInfo}
-                  setOpenAnimation={setOpenAnimation}
-                  setVisibleCard={setVisibleCard}
-                />
-              </Section>
-            </DownloadSection>
-          </Tabs.Item>
-        ))}
-      </Tab>
+      {/* Menu */}
+      <DrawerLateral
+        setDrawerState={setDrawerState}
+        setOpenCloseModalConfig={setOpenCloseModalConfig}
+        setOpenCloseModalInfo={setOpenCloseModalInfo}
+        stateDrawer={stateDrawer}
+      />
+      <Spacer h={10}></Spacer>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          gap: "10px",
+        }}
+      >
+        <img src={logoSet} height="150px" alt="" className={!isEmpty(videoInfo) ? 'rotate_logo':'rotate_logo_normal'} />
+      </div>
+      <Spacer h={3}></Spacer>
+      <Section>
+        <InputVideoUrl
+          downloadVideo={downloadVideoByUrl}
+          btnLoading={btnLoading}
+          setVideoInfo={setVideoInfo}
+          setOpenAnimation={setOpenAnimation}
+          setVisibleCard={setVisibleCard}
+        />
+      </Section>
       <Page.Footer style={{ textAlign: "right", marginBottom: "30px" }}>
         <Toggle
           type="secondary"
@@ -233,13 +232,6 @@ export const Home = ({ switchThemes }) => {
           className="claseCheck"
         />
       </Page.Footer>
-      {/* Menu */}
-      <DrawerLateral
-        setDrawerState={setDrawerState}
-        setOpenCloseModalConfig={setOpenCloseModalConfig}
-        setOpenCloseModalInfo={setOpenCloseModalInfo}
-        stateDrawer={stateDrawer}
-      />
     </Page>
   );
 };

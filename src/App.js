@@ -10,7 +10,7 @@ function App() {
   return (
     <GeistProvider themeType={themeType}>
       <CssBaseline />
-      <Home switchThemes={switchThemes} />
+      <Home switchThemes={switchThemes} themeType={themeType}/>
     </GeistProvider>
   );
 }

@@ -13,10 +13,10 @@
         </filter>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" transform="translate(236.000000, 184.500000) rotate(-90.000000) translate(-236.000000, -184.500000) translate(100.000000, -3.000000)">
-            <polygon id="Triangle" fill="#E611FF" opacity="0.976446243" filter="url(#filter-1)" transform="translate(136.000000, 125.000000) rotate(180.000000) translate(-136.000000, -125.000000) " points="136 2.84217094e-14 272 250 0 250"></polygon>
-            <polygon id="Triangle" fill="#34FCFF" opacity="0.791294643" filter="url(#filter-2)" transform="translate(136.000000, 191.000000) rotate(180.000000) translate(-136.000000, -191.000000) " points="136 66 272 316 0 316"></polygon>
-            <polygon id="Triangle" fill="#FFFFFF" opacity="0.867559524" filter="url(#filter-3)" transform="translate(136.000000, 250.000000) rotate(180.000000) translate(-136.000000, -250.000000) " points="136 125 272 375 0 375"></polygon>
+        <g id="Group" transform="translate(236.000000, 184.500000) rotate(-90.000000) translate(-236.000000, -184.500000) translate(100.000000, -3.000000)" fill="#000000">
+            <polygon id="Triangle" opacity="0.976446243" filter="url(#filter-1)" transform="translate(136.000000, 125.000000) rotate(180.000000) translate(-136.000000, -125.000000) " points="136 -2.25226923e-14 272 250 0 250"></polygon>
+            <polygon id="Triangle" opacity="0.791294643" filter="url(#filter-2)" transform="translate(136.000000, 191.000000) rotate(180.000000) translate(-136.000000, -191.000000) " points="136 66 272 316 0 316"></polygon>
+            <polygon id="Triangle" opacity="0.867559524" filter="url(#filter-3)" transform="translate(136.000000, 250.000000) rotate(180.000000) translate(-136.000000, -250.000000) " points="136 125 272 375 0 375"></polygon>
         </g>
     </g>
 </svg>

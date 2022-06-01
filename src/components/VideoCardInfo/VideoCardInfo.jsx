@@ -5,6 +5,7 @@ export const VideoCardInfo = ({
   openAnimation,
   setOpenAnimation,
   setVisibleCard,
+  setVideoInfo
 }) => {
   return (
     <div
@@ -25,6 +26,7 @@ export const VideoCardInfo = ({
                 setOpenAnimation(false);
                 setTimeout(() => {
                   setVisibleCard(false);
+                  setVideoInfo({})
                 }, 500);
               }}
             />
