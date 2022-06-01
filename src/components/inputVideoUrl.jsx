@@ -3,7 +3,13 @@ import { Download, Youtube } from "@geist-ui/icons";
 import { Input, Button, Spacer } from "@geist-ui/core";
 import { getVideoInfo } from "../api/api.js";
 import { isEmpty } from "lodash";
-export const InputVideoUrl = ({ downloadVideo, btnLoading, setVideoInfo }) => {
+export const InputVideoUrl = ({
+  downloadVideo,
+  btnLoading,
+  setVideoInfo,
+  setOpenAnimation,
+  setVisibleCard,
+}) => {
   const [url, setUrl] = useState("");
   const urlValue = async (value) => {
     setUrl(value.target.value);
@@ -11,6 +17,8 @@ export const InputVideoUrl = ({ downloadVideo, btnLoading, setVideoInfo }) => {
       const response = await getVideoInfo(value.target.value);
       if (response.status) {
         setVideoInfo(response.data);
+        setOpenAnimation(true);
+        setVisibleCard(true);
       }
     }
   };

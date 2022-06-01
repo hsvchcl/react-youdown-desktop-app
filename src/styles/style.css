@@ -18,7 +18,7 @@
     gap: 5px;
 }
 
-.home__card_video_info_image img{
+.home__card_video_info_image img {
     max-height: 350px !important;
     max-width: 355px !important;
     position: relative !important;
@@ -77,4 +77,38 @@
 .drawer__h3_menu_style h3 {
     margin: 0px;
     font-weight: 400;
+}
+
+.scale-up-bottom {
+    animation: scale-up-bottom 0.9s;
+}
+
+@keyframes scale-up-bottom {
+    0% {
+        transform: scale(0);
+        transform-origin: center bottom;
+    }
+
+    100% {
+        transform: scale(1);
+        transform-origin: center bottom;
+    }
+}
+
+.scale-down-bottom {
+    animation: scale-down-bottom 0.5s;
+}
+
+@keyframes scale-down-bottom {
+    0% {
+        transform: scale(1);
+        transform-origin: center bottom;
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0);
+        transform-origin: center bottom;
+        opacity: 0;
+    }
 }

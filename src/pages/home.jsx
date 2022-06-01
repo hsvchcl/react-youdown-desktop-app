@@ -8,10 +8,6 @@ import {
   Button,
   Grid,
   Spacer,
-  Card,
-  Text,
-  Image,
-  Badge
 } from "@geist-ui/core";
 import { Twitch, Twitter, Menu } from "@geist-ui/icons";
 import { get, isEmpty } from "lodash";
@@ -25,6 +21,7 @@ import { ModalConfig } from "../components/ModalConfig/ModalConfig";
 import { ModalInfo } from "../components/ModalInfo/ModalInfo";
 import { ModalDownloadMessage } from "../components/ModalDownloadComplete/DownloadComplete";
 import { DrawerLateral } from "../components/DrawerLateralMenu/DrawerLateral";
+import { VideoCardInfo } from "../components/VideoCardInfo/VideoCardInfo";
 import { validateUrl, clearURL } from "../utils/index";
 import { downloadVideo, checkAPIStatus, getConfiguration } from "../api/api";
 import Logo from "../assets/logo_svg.svg";
@@ -38,10 +35,12 @@ export const Home = ({ switchThemes }) => {
   const [openCloseModalInfo, setOpenCloseModalInfo] = useState(false);
   const [openCloseModalDownloadMessage, setOpenCloseModalDownloadMessage] =
     useState(false);
+  const [openAnimation, setOpenAnimation] = useState(false);
   const [config, setConfig] = useState({});
   const [stateDrawer, setDrawerState] = useState(false);
   const [downloadInfo, setDownloadInfo] = useState({});
   const [videoInfo, setVideoInfo] = useState({});
+  const [visibleCard, setVisibleCard] = useState(false);
 
   const { setToast } = useToasts({ placement: "bottomLeft" });
 
@@ -157,6 +156,14 @@ export const Home = ({ switchThemes }) => {
       dotSpace={0.6}
       width={50}
     >
+      {!isEmpty(videoInfo) && visibleCard && (
+        <VideoCardInfo
+          videoInfo={videoInfo}
+          openAnimation={openAnimation}
+          setOpenAnimation={setOpenAnimation}
+          setVisibleCard={setVisibleCard}
+        />
+      )}
       <ModalMessage
         open={openCloseModal}
         setOpenCloseModal={setOpenCloseModal}
@@ -210,6 +217,8 @@ export const Home = ({ switchThemes }) => {
                   downloadVideo={downloadVideoByUrl}
                   btnLoading={btnLoading}
                   setVideoInfo={setVideoInfo}
+                  setOpenAnimation={setOpenAnimation}
+                  setVisibleCard={setVisibleCard}
                 />
               </Section>
             </DownloadSection>
@@ -224,9 +233,6 @@ export const Home = ({ switchThemes }) => {
           className="claseCheck"
         />
       </Page.Footer>
-
-      {/* {!isEmpty(videoInfo) && }; */}
-
       {/* Menu */}
       <DrawerLateral
         setDrawerState={setDrawerState}
