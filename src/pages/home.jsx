@@ -34,7 +34,7 @@ export const Home = ({ switchThemes, themeType }) => {
   const [visibleCard, setVisibleCard] = useState(false);
   const [logoSet, setLogo] = useState(Logo);
 
-  const { setToast } = useToasts({ placement: "bottomLeft" });
+  const { setToast } = useToasts({ placement: "topRight" });
 
   useEffect(() => {
     let executed = false;
@@ -194,7 +194,7 @@ export const Home = ({ switchThemes, themeType }) => {
         setOpenCloseModalInfo={setOpenCloseModalInfo}
         stateDrawer={stateDrawer}
       />
-      <Spacer h={5}></Spacer>
+      <Spacer h={2}></Spacer>
       <div
         style={{
           display: "flex",
@@ -218,6 +218,7 @@ export const Home = ({ switchThemes, themeType }) => {
           setVideoInfo={setVideoInfo}
           setOpenAnimation={setOpenAnimation}
           setVisibleCard={setVisibleCard}
+          videoInfo={videoInfo}
         />
       </Section>
       <Page.Footer

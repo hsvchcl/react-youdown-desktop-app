@@ -9,13 +9,16 @@ export const InputVideoUrl = ({
   setVideoInfo,
   setOpenAnimation,
   setVisibleCard,
+  videoInfo,
 }) => {
   const [url, setUrl] = useState("");
+  const [info, setInfo] = useState({});
   const urlValue = async (value) => {
     setUrl(value.target.value);
     if (!isEmpty(value.target.value)) {
       const response = await getVideoInfo(value.target.value);
       if (response.status) {
+        setInfo(response.data);
         setVideoInfo(response.data);
         setOpenAnimation(true);
         setVisibleCard(true);
@@ -25,10 +28,16 @@ export const InputVideoUrl = ({
   return (
     <>
       <Input
+        className={
+          !isEmpty(videoInfo)
+            ? "input_video_url__move_up"
+            : "input_video_url__move_initial_position"
+        }
         scale={1.5}
         icon={<Youtube />}
         placeholder="URL de video en youtube ctrl+v"
         width="100%"
+        style={{fontWeight:900}}
         onChange={(value) => {
           urlValue(value);
         }}

@@ -39,7 +39,7 @@ export const VideoCardInfo = ({
             <Badge scale={0.9} marginBottom={0.5} type="secondary">
               {videoInfo.author.name}
             </Badge>
-            <Text h5 my={0}>
+            <Text h5 my={0} className='video_card_info__video_title'>
               {videoInfo.title}
             </Text>
             <Spacer h={1} />
