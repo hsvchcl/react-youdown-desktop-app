@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { Download, Youtube } from "@geist-ui/icons";
-import { Input, Button, Spacer } from "@geist-ui/core";
+import { useEffect, useState } from "react";
+import { Youtube } from "@geist-ui/icons";
+import { Input } from "@geist-ui/core";
 import { getVideoInfo } from "../api/api.js";
 import { isEmpty } from "lodash";
 export const InputVideoUrl = ({
-  downloadVideo,
   btnLoading,
   setVideoInfo,
   setOpenAnimation,
@@ -13,6 +12,8 @@ export const InputVideoUrl = ({
 }) => {
   const [url, setUrl] = useState("");
   const [info, setInfo] = useState({});
+  const [initialValue, setInitialValue] = useState("");
+
   const urlValue = async (value) => {
     setUrl(value.target.value);
     if (!isEmpty(value.target.value)) {
@@ -36,8 +37,9 @@ export const InputVideoUrl = ({
         scale={1.5}
         icon={<Youtube />}
         placeholder="URL de video en youtube ctrl+v"
+        initialValue={initialValue}
         width="100%"
-        style={{fontWeight:900}}
+        style={{ fontWeight: 900 }}
         onChange={(value) => {
           urlValue(value);
         }}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Input, Spacer, useToasts, Card, Button } from "@geist-ui/core";
 import { Github } from "@geist-ui/icons";
 import { saveConfiguration } from "../../api/api";
+import { isEmpty } from "lodash";
 var shell = window.require("electron").shell;
 
 export const ModalConfig = ({
@@ -19,12 +20,12 @@ export const ModalConfig = ({
     const isValidPathFfmpeg = validatePathFormat(form.path_ffmpeg);
     const isValidPathDownloads = validatePathFormat(form.path_downloads);
 
-    if (isValidPathFfmpeg && isValidPathDownloads) {
+    if (isValidPathFfmpeg && isValidPathDownloads || !isEmpty(config)) {
       setFormInvalid(false);
     } else {
       setFormInvalid(true);
     }
-  }, [form]);
+  }, [form, config]);
 
   const validatePathFormat = (path) => {
     return /((\\|\/)[a-z0-9\s_@\-^!#$%&+={}\[\]]+)/i.test(path);

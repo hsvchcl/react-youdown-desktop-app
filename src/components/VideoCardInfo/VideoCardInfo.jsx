@@ -26,11 +26,13 @@ export const VideoCardInfo = ({
               <span style={{ cursor: "pointer" }}>
                 <XCircleFill
                   onClick={() => {
-                    setOpenAnimation(false);
-                    setTimeout(() => {
-                      setVisibleCard(false);
-                      setVideoInfo({});
-                    }, 500);
+                    if (!btnLoading) {
+                      setOpenAnimation(false);
+                      setTimeout(() => {
+                        setVisibleCard(false);
+                        setVideoInfo({});
+                      }, 500);
+                    }
                   }}
                 />
               </span>
@@ -39,7 +41,7 @@ export const VideoCardInfo = ({
             <Badge scale={0.9} marginBottom={0.5} type="secondary">
               {videoInfo.author.name}
             </Badge>
-            <Text h5 my={0} className='video_card_info__video_title'>
+            <Text h5 my={0} className="video_card_info__video_title">
               {videoInfo.title}
             </Text>
             <Spacer h={1} />
@@ -56,7 +58,16 @@ export const VideoCardInfo = ({
               >
                 Descargar Audio
               </Button>
-              <Button icon={<Video />} scale={1 / 3}>
+              <Button
+                icon={<Video />}
+                onClick={() => {
+                  const urlVideo = videoInfo.video_url;
+                  const typeDownload = "audioandvideo";
+                  downloadVideoByUrl({ urlVideo, typeDownload });
+                }}
+                scale={1 / 3}
+                loading={btnLoading}
+              >
                 Descargar Video
               </Button>
             </ButtonGroup>

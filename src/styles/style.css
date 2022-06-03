@@ -1,9 +1,9 @@
 .video_card_info__card {
   position: absolute;
   z-index: 1;
-  bottom: 30px;
+  top: 240px;
   width: 95% !important;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .video_card_info__video_title {
@@ -14,11 +14,6 @@
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-
-#triangle3 {
-  transform: rotateX(20deg) !important;
-}
-
 
 .video_card_info__card:hover {
   transform: scale(1.01);
@@ -49,7 +44,8 @@
   max-width: 355px !important;
   position: relative !important;
   z-index: 1000;
-  border-radius: 5px !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
   margin-left: 0px;
 }
 
@@ -111,7 +107,7 @@
 
 .rotate_logo {
   transition: 0.5s;
-  transform: rotate(90deg) scale(0.9) translateX(190px)
+  transform: rotate(90deg) scale(0.9);
 }
 
 .rotate_logo_normal {
@@ -121,7 +117,7 @@
 
 .input_video_url__move_up {
   transition: 0.5s;
-  transform: translateY(-80px) scale(0); 
+  transform: translateY(-80px) scale(0);
   opacity: 0;
 }
 

@@ -1,5 +1,5 @@
 import { Modal, Spacer, Image, Tag, Tooltip } from "@geist-ui/core";
-import { X } from "@geist-ui/icons";
+import { X, Folder } from "@geist-ui/icons";
 import SuccessSvg from "../../assets/sucess.svg";
 import ErrorSvg from "../../assets/error.svg";
 var shell = window.require("electron").shell;
@@ -24,13 +24,13 @@ export const ModalDownloadMessage = ({
             <p>Archivo guardado correctamente en:</p>
             <Tag
               type="lite"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", fontWeight:700 }}
               onClick={() => {
                 shell.showItemInFolder(downloadInfo.path_download);
               }}
             >
               <Tooltip text={"Abrir directorio"}>
-                {downloadInfo.path_download}
+              {downloadInfo.path_download}
               </Tooltip>
             </Tag>
             <Spacer h={2} />

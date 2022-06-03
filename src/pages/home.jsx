@@ -1,7 +1,7 @@
 import "../styles/style.css";
 import { useEffect, useState } from "react";
 import { Page, useToasts, Toggle, Spacer } from "@geist-ui/core";
-import { Twitch, Twitter, Settings } from "@geist-ui/icons";
+import { Settings } from "@geist-ui/icons";
 import { get, isEmpty } from "lodash";
 
 import { Section } from "../components/section";
@@ -10,7 +10,6 @@ import { ModalMessage } from "../components/ModalMessage/ModalMessage";
 import { ModalConfig } from "../components/ModalConfig/ModalConfig";
 import { ModalInfo } from "../components/ModalInfo/ModalInfo";
 import { ModalDownloadMessage } from "../components/ModalDownloadComplete/DownloadComplete";
-import { DrawerLateral } from "../components/DrawerLateralMenu/DrawerLateral";
 import { VideoCardInfo } from "../components/VideoCardInfo/VideoCardInfo";
 import { validateUrl, clearURL } from "../utils/index";
 import { downloadVideo, checkAPIStatus, getConfiguration } from "../api/api";
@@ -18,8 +17,6 @@ import Logo from "../assets/logo_svg.svg";
 import LogoLigth from "../assets/logo_ligth.svg";
 
 export const Home = ({ switchThemes, themeType }) => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [tabSel, setTabSel] = useState("audioonly");
   const [btnLoading, setBtnLoading] = useState(false);
   const [openCloseModal, setOpenCloseModal] = useState(false);
   const [openCloseModalConfig, setOpenCloseModalConfig] = useState(false);
@@ -28,60 +25,12 @@ export const Home = ({ switchThemes, themeType }) => {
     useState(false);
   const [openAnimation, setOpenAnimation] = useState(false);
   const [config, setConfig] = useState({});
-  const [stateDrawer, setDrawerState] = useState(false);
   const [downloadInfo, setDownloadInfo] = useState({});
   const [videoInfo, setVideoInfo] = useState({});
   const [visibleCard, setVisibleCard] = useState(false);
   const [logoSet, setLogo] = useState(Logo);
 
   const { setToast } = useToasts({ placement: "topRight" });
-
-  useEffect(() => {
-    let executed = false;
-    setMenuItems([
-      {
-        title: "Audio",
-        icon: Twitch,
-        value: 1,
-        description: "Descarga solo el audio de un video en formato mp3",
-        type: "audioonly",
-      },
-      {
-        title: "Video",
-        icon: Twitter,
-        value: 2,
-        description: "Descarga video y audio",
-        type: "audioandvideo",
-      },
-    ]);
-    //CheckAPIStatus
-    async function checkStatus() {
-      checkAPIStatus().then((response) => {
-        const { status } = response;
-        if (!status) {
-          setOpenCloseModal(true);
-        } else {
-          setOpenCloseModal(false);
-          if (!executed) {
-            setToast({
-              text: `👍🏻  En línea`,
-              delay: 2000,
-              type: "success",
-            });
-          }
-          executed = true;
-        }
-      });
-    }
-
-    //Check api status
-    checkStatus();
-    setInterval(function () {
-      checkStatus();
-    }, 5000);
-
-    // Check config
-  }, []);
 
   useEffect(() => {
     if (openCloseModal === false) {
@@ -148,13 +97,27 @@ export const Home = ({ switchThemes, themeType }) => {
     }
   };
 
+  const checkStatus = async () => {
+    checkAPIStatus().then((response) => {
+      const { status } = response;
+      if (!status) {
+        setOpenCloseModal(true);
+      } else {
+        setOpenCloseModal(false);
+      }
+    });
+  };
+
   return (
     <Page
       height="100vh"
       dotBackdrop={true}
-      dotSize="0.8px"
-      dotSpace={0.6}
+      dotSize="1px"
+      dotSpace={0.2}
       width={50}
+      onMouseEnter={() => {
+        checkStatus();
+      }}
     >
       {!isEmpty(videoInfo) && visibleCard && (
         <VideoCardInfo
@@ -186,13 +149,6 @@ export const Home = ({ switchThemes, themeType }) => {
         open={openCloseModalDownloadMessage}
         setOpenCloseModalDownloadMessage={setOpenCloseModalDownloadMessage}
         downloadInfo={downloadInfo}
-      />
-      {/* Menu */}
-      <DrawerLateral
-        setDrawerState={setDrawerState}
-        setOpenCloseModalConfig={setOpenCloseModalConfig}
-        setOpenCloseModalInfo={setOpenCloseModalInfo}
-        stateDrawer={stateDrawer}
       />
       <Spacer h={2}></Spacer>
       <div
@@ -233,7 +189,9 @@ export const Home = ({ switchThemes, themeType }) => {
         }}
       >
         <Spacer w={"100%"} />
+        <span style={{cursor:'pointer'}}>
         <Settings onClick={() => setOpenCloseModalConfig(true)} />
+        </span>
         <Toggle
           type="secondary"
           initialChecked={false}
